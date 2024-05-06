@@ -1,0 +1,39 @@
+#!/usr/bin/env php
+<?php
+  echo "<br>";
+  $age = $_GET['age'];
+  $name =  $_GET['name'];
+  print "выборка пользователей";
+
+  $flag1 = !empty($age);
+  $flag2 = !empty($name);
+
+  $csvFile = 'titanic.csv';
+  if (($handle = fopen($csvFile, "r")) !== FALSE) {
+    echo "<br>";
+    while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
+      if ($flag1 && $flag2 && stripos($data[2], $name) !== FALSE && $data[4] == $age) {
+        echo "<br>";
+        foreach ($data as $value) {
+          echo $value . "&nbsp&nbsp";
+        }
+      } elseif ($flag2 && stripos($data[2], $name) !== FALSE && !$flag1) {
+        echo "<br>";
+        foreach ($data as $value) {
+          echo $value . "&nbsp&nbsp";
+        }
+      } elseif ($flag1 && $data[4] == $age && !$flag2) {
+        echo "<br>";
+        foreach ($data as $value) {
+          echo $value . "&nbsp&nbsp";
+        }
+      } elseif (!$flag1 && !$flag2) {
+        echo "<br>";
+        foreach ($data as $value) {
+          echo $value . "&nbsp&nbsp";
+        }
+      }
+    }
+    fclose($handle);
+  }
+?>
